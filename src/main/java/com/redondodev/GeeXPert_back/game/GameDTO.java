@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Data
 @Builder
@@ -13,7 +13,7 @@ public class GameDTO {
 
     private Integer id;
     private String name;
-    private Date releaseDate;
+    private LocalDate releaseDate;
     private String genresIds;
     private String platformsIds;
     private String coverId;

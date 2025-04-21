@@ -45,33 +45,7 @@ public class GameApiService {
         String body = "fields id, cover, first_release_date, name, rating, genres, platforms; " +
                 "sort rating desc; where rating_count > 100; limit 10;";
 
-        HttpEntity<String> request = new HttpEntity<>(body, headers);
-
-        ResponseEntity<GameDTO[]> response = restTemplate.exchange(
-                url,
-                HttpMethod.POST,
-                request,
-                GameDTO[].class
-        );
-
-        List<GameDTO> games = Arrays.asList(Objects.requireNonNull(response.getBody()));
-
-        for (GameDTO game : games) {
-            if (game.getCover() != null) {
-                String coverUrl = getCoverUrl(game.getCover());
-                game.setCover(coverUrl);
-            }
-            if (game.getPlatforms() != null) {
-                List<String> platformNames = getPlatformNames(game.getPlatforms());
-                game.setPlatforms(platformNames);
-            }
-            if (game.getGenres() != null) {
-                List<String> genresNames = getGenresNames(game.getGenres());
-                game.setGenres(genresNames);
-            }
-        }
-
-        return Arrays.asList(Objects.requireNonNull(response.getBody()));
+        return getGameDTOS(url, headers, body);
 
     }
 
@@ -87,33 +61,7 @@ public class GameApiService {
         String body = "fields id, cover, first_release_date, name, rating, rating_count, genres, platforms; " +
                 "sort rating_count desc; limit 10;";
 
-        HttpEntity<String> request = new HttpEntity<>(body, headers);
-
-        ResponseEntity<GameDTO[]> response = restTemplate.exchange(
-                url,
-                HttpMethod.POST,
-                request,
-                GameDTO[].class
-        );
-
-        List<GameDTO> games = Arrays.asList(Objects.requireNonNull(response.getBody()));
-
-        for (GameDTO game : games) {
-            if (game.getCover() != null) {
-                String coverUrl = getCoverUrl(game.getCover());
-                game.setCover(coverUrl);
-            }
-            if (game.getPlatforms() != null) {
-                List<String> platformNames = getPlatformNames(game.getPlatforms());
-                game.setPlatforms(platformNames);
-            }
-            if (game.getGenres() != null) {
-                List<String> genresNames = getGenresNames(game.getGenres());
-                game.setGenres(genresNames);
-            }
-        }
-
-        return Arrays.asList(Objects.requireNonNull(response.getBody()));
+        return getGameDTOS(url, headers, body);
     }
 
     public List<GameDTO> getGamesByName(String name) {
@@ -128,6 +76,10 @@ public class GameApiService {
         String body = "fields id, cover, name, rating, genres, platforms, first_release_date; " +
                 "search \"" + name + "\"; limit 20;";
 
+        return getGameDTOS(url, headers, body);
+    }
+
+    private List<GameDTO> getGameDTOS(String url, HttpHeaders headers, String body) {
         HttpEntity<String> request = new HttpEntity<>(body, headers);
 
         ResponseEntity<GameDTO[]> response = restTemplate.exchange(

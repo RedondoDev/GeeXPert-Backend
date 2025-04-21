@@ -7,7 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "games")
@@ -28,14 +27,14 @@ public class Game {
     @Column(name = "release_date")
     private LocalDate releaseDate;
 
-    @Column(name = "platforms_ids")
+    @Column(name = "platforms")
     private String platformsIds;
 
-    @Column(name = "genres_ids")
+    @Column(name = "genres")
     private String genresIds;
 
-    @Column(name = "cover_id")
-    private String coverId;
+    @Column(name = "cover")
+    private String cover;
 
     @Column(name = "rating")
     private double rating;

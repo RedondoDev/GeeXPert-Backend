@@ -43,16 +43,16 @@ public class UserGameController {
 
     @PutMapping("/{gameId}/state")
     public ResponseEntity<String> updateUserGameStatus(
-            @PathVariable Integer gameId, @RequestParam String state, HttpServletRequest request) {
+            @PathVariable Integer gameId, @RequestBody String state, HttpServletRequest request) {
         Integer userId = getJwtUserId(request);
         userGameService.updateUserGameStatus(userId, gameId, state);
         return ResponseEntity.ok("Game status updated");
     }
 
     @DeleteMapping("/{gameId}")
-    public ResponseEntity<String> removeGameFromCollection(@PathVariable Integer gameId, @RequestBody GameDTO gameDTO, HttpServletRequest request) {
+    public ResponseEntity<String> removeGameFromCollection(@PathVariable Integer gameId, HttpServletRequest request) {
         Integer userId = getJwtUserId(request);
-        userGameService.removeGameFromUserCollection(userId, gameDTO);
+        userGameService.removeGameFromUserCollection(userId, gameId);
         return ResponseEntity.ok("Game removed from collection");
     }
 

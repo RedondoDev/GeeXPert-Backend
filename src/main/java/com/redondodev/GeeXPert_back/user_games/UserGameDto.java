@@ -5,8 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-
 @Data
 @Builder
 @AllArgsConstructor
@@ -15,8 +13,8 @@ public class UserGameDto {
 
     private Integer userGameId;
     private String name;
-    private String coverId;
+    private String cover;
     private String state;
-    private LocalDate date;
+    private Long date;
 
 }

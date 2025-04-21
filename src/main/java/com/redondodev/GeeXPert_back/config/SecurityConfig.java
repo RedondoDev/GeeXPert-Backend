@@ -26,7 +26,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authRequest ->
                         authRequest
                                 .requestMatchers("/auth/**").permitAll()
-                                .requestMatchers("/protectedContent/**").authenticated()
+                                .requestMatchers("/collection/**").authenticated()
                                 .anyRequest().permitAll()
                 )
                 .sessionManagement(sessionManager ->

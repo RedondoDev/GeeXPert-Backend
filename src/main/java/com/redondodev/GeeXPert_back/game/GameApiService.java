@@ -8,6 +8,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import org.springframework.http.HttpHeaders;
@@ -34,7 +35,6 @@ public class GameApiService {
     }
 
     public List<GameDTO> getTopRatedGames() {
-
         String url = "https://api.igdb.com/v4/games";
 
         HttpHeaders headers = new HttpHeaders();
@@ -45,8 +45,7 @@ public class GameApiService {
         String body = "fields id, cover, first_release_date, name, rating, genres, platforms; " +
                 "sort rating desc; where rating_count > 100; limit 10;";
 
-        return getGameDTOS(url, headers, body);
-
+        return retardHttpRequest(url, headers, body);
     }
 
     public List<GameDTO> getTrendingGames() {
@@ -61,7 +60,7 @@ public class GameApiService {
         String body = "fields id, cover, first_release_date, name, rating, rating_count, genres, platforms; " +
                 "sort rating_count desc; limit 10;";
 
-        return getGameDTOS(url, headers, body);
+        return retardHttpRequest(url, headers, body);
     }
 
     public List<GameDTO> getGamesByName(String name) {
@@ -74,40 +73,11 @@ public class GameApiService {
         headers.setContentType(MediaType.TEXT_PLAIN);
 
         String body = "fields id, cover, name, rating, genres, platforms, first_release_date; " +
-                "search \"" + name + "\"; limit 20;";
+                "search \"" + name + "\"; limit 15;";
 
-        return getGameDTOS(url, headers, body);
+        return retardHttpRequest(url, headers, body);
     }
 
-    private List<GameDTO> getGameDTOS(String url, HttpHeaders headers, String body) {
-        HttpEntity<String> request = new HttpEntity<>(body, headers);
-
-        ResponseEntity<GameDTO[]> response = restTemplate.exchange(
-                url,
-                HttpMethod.POST,
-                request,
-                GameDTO[].class
-        );
-
-        List<GameDTO> games = Arrays.asList(Objects.requireNonNull(response.getBody()));
-
-        for (GameDTO game : games) {
-            if (game.getCover() != null) {
-                String coverUrl = getCoverUrl(game.getCover());
-                game.setCover(coverUrl);
-            }
-            if (game.getPlatforms() != null) {
-                List<String> platformNames = getPlatformNames(game.getPlatforms());
-                game.setPlatforms(platformNames);
-            }
-            if (game.getGenres() != null) {
-                List<String> genresNames = getGenresNames(game.getGenres());
-                game.setGenres(genresNames);
-            }
-        }
-
-        return Arrays.asList(Objects.requireNonNull(response.getBody()));
-    }
 
     public String getCoverUrl(String cover) {
         String url = "https://api.igdb.com/v4/covers";
@@ -208,6 +178,55 @@ public class GameApiService {
             e.printStackTrace();
         }
         return List.of();
+    }
+
+    private List<GameDTO> getGameDTOS(String url, HttpHeaders headers, String body) {
+        HttpEntity<String> request = new HttpEntity<>(body, headers);
+
+        ResponseEntity<GameDTO[]> response = restTemplate.exchange(
+                url,
+                HttpMethod.POST,
+                request,
+                GameDTO[].class
+        );
+
+        List<GameDTO> games = Arrays.asList(Objects.requireNonNull(response.getBody()));
+
+        for (GameDTO game : games) {
+            if (game.getCover() != null) {
+                String coverUrl = getCoverUrl(game.getCover());
+                game.setCover(coverUrl);
+            }
+            if (game.getPlatforms() != null) {
+                List<String> platformNames = getPlatformNames(game.getPlatforms());
+                game.setPlatforms(platformNames);
+            }
+            if (game.getGenres() != null) {
+                List<String> genresNames = getGenresNames(game.getGenres());
+                game.setGenres(genresNames);
+            }
+        }
+
+        return Arrays.asList(Objects.requireNonNull(response.getBody()));
+    }
+
+    private List<GameDTO> retardHttpRequest(String url, HttpHeaders headers, String body) {
+        for (int i = 1; i <= 3; i++) {
+            try {
+                return getGameDTOS(url, headers, body);
+            } catch (HttpClientErrorException.TooManyRequests e) {
+                if (i == 3) {
+                    throw new RuntimeException("Max retries reached. Please try again later.", e);
+                }
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException interruptedException) {
+                    Thread.currentThread().interrupt();
+                    throw new RuntimeException("Retry interrupted", interruptedException);
+                }
+            }
+        }
+        throw new RuntimeException("Unexpected error occurred.");
     }
 
 }

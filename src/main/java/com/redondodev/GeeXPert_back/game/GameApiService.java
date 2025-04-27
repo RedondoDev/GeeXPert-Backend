@@ -76,7 +76,7 @@ public class GameApiService {
         headers.setContentType(MediaType.TEXT_PLAIN);
 
         String body = "fields id, cover.url, name, rating, genres.name, platforms.name, first_release_date; " +
-                "search \"" + name + "\"; limit 10;";
+                "search \"" + name + "\"; limit 30;";
 
         return delayHttpRequest(url, headers, body);
     }

@@ -8,7 +8,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/games")
 @AllArgsConstructor
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "http://localhost:4200/")
 public class GameController {
 
     private final GameApiService gameApiService;
@@ -19,8 +19,15 @@ public class GameController {
     }
 
     @GetMapping("/trending")
-    public List<GameDTO> getTrendingGames() {
-        return gameApiService.getTrendingGames();
+    public List<GameDTO> getTrendingGames(@RequestParam(defaultValue = "0") int page,
+                                          @RequestParam(defaultValue = "10") int size) {
+        return gameApiService.getTrendingGames(page, size);
+    }
+
+    @GetMapping("/explore")
+    public List<GameDTO> getExploreGames(@RequestParam(defaultValue = "0") int page,
+                                         @RequestParam(defaultValue = "10") int size) {
+        return gameApiService.getTrendingGames(page, size);
     }
 
     @GetMapping("/search")

@@ -49,7 +49,7 @@ public class JwtService {
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
 
-    private Claims getClaims(String token) {
+    private Claims getAllClaims(String token) {
         return Jwts
                 .parserBuilder()
                 .setSigningKey(getKey())
@@ -59,7 +59,7 @@ public class JwtService {
     }
 
     public <T> T getClaim(String token, Function<Claims, T> claimResolver) {
-        final Claims claims = getClaims(token);
+        final Claims claims = getAllClaims(token);
         return claimResolver.apply(claims);
     }
 

@@ -36,6 +36,10 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authRequest ->
                         authRequest
                                 .requestMatchers("/auth/**").permitAll()
+                                .requestMatchers("/games/top").permitAll()
+                                .requestMatchers("/games/trending").permitAll()
+                                .requestMatchers("/games/explore").authenticated()
+                                .requestMatchers("/games/search").authenticated()
                                 .requestMatchers("/collection/**").authenticated()
                                 .anyRequest().permitAll()
                 )

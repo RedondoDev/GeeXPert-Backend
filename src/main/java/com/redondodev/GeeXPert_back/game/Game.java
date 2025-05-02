@@ -17,7 +17,6 @@ import java.time.LocalDate;
 public class Game {
 
     @Id
-    @GeneratedValue
     @Column(name = "game_id")
     private Integer id;
 

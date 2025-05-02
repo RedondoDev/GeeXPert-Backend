@@ -8,7 +8,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/collection")
@@ -29,10 +31,15 @@ public class UserGameController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<String> addGameToCollection(@RequestBody GameDTO gameDTO, HttpServletRequest request) {
+    public ResponseEntity<Map<String, String>> addGameToCollection(@RequestBody GameDTO gameDTO, HttpServletRequest request) {
         Integer userId = getJwtUserId(request);
         userGameService.addGameToUserCollection(userId, gameDTO);
-        return ResponseEntity.ok("Game added to collection");
+
+        System.out.println("Game added to collection: " + gameDTO);
+
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "Game added to collection");
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/games")
@@ -54,6 +61,7 @@ public class UserGameController {
     public ResponseEntity<String> removeGameFromCollection(@PathVariable Integer gameId, HttpServletRequest request) {
         Integer userId = getJwtUserId(request);
         userGameService.removeGameFromUserCollection(userId, gameId);
+        System.out.println();
         return ResponseEntity.ok("Game removed from collection");
     }
 

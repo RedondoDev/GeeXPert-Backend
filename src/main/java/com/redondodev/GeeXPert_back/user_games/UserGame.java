@@ -35,9 +35,6 @@ public class UserGame {
     @Column(name = "state", nullable = false)
     private State state;
 
-    @Column(name = "date")
-    private LocalDate date;
-
     public enum State {
         PENDING,
         PLAYING,

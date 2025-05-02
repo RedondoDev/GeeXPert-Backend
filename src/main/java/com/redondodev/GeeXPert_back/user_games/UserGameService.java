@@ -30,7 +30,7 @@ public class UserGameService {
             User user = userRepository.findById(userId)
                     .orElseThrow(() -> new RuntimeException("User not found"));
 
-            Game game = gameRepository.findByName(gameDTO.getName()).orElse(null);
+            Game game = gameRepository.findById(gameDTO.getId()).orElse(null);
 
             if (game == null) {
                 LocalDate releaseDate = null;
@@ -42,8 +42,9 @@ public class UserGameService {
                 }
 
                 game = Game.builder()
+                        .id(gameDTO.getId())
                         .name(gameDTO.getName())
-                        .releaseDate(releaseDate) // Allow null release date
+                        .releaseDate(releaseDate)
                         .platformsIds(gameDTO.getPlatforms() != null
                                 ? joinListToString(gameDTO.getPlatforms())
                                 : null)
@@ -54,7 +55,7 @@ public class UserGameService {
                         .rating(gameDTO.getRating())
                         .build();
 
-                gameRepository.save(game);
+                game = gameRepository.save(game);
             }
 
             if (!userGameRepository.existsByUserAndGame(user, game)) {
@@ -62,7 +63,6 @@ public class UserGameService {
                         .user(user)
                         .game(game)
                         .state(UserGame.State.PENDING)
-                        .date(LocalDate.now())
                         .build();
                 userGameRepository.save(userGame);
             } else {
@@ -97,11 +97,7 @@ public class UserGameService {
                 .map(userGame -> new UserGameDto(
                         userGame.getGame().getId(),
                         userGame.getGame().getName(),
-                        userGame.getGame().getCover(),
-                        userGame.getState().name(),
-                        userGame.getDate() != null
-                                ? userGame.getDate().atStartOfDay(ZoneId.systemDefault()).toEpochSecond()
-                                : null))
+                        userGame.getState().name()))
                 .toList();
     }
 

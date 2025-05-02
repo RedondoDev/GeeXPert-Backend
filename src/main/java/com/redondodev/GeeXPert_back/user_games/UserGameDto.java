@@ -13,8 +13,6 @@ public class UserGameDto {
 
     private Integer userGameId;
     private String name;
-    private String cover;
     private String state;
-    private Long date;
 
 }

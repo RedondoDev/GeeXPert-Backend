@@ -23,9 +23,6 @@ public class Game {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "release_date")
-    private LocalDate releaseDate;
-
     @Column(name = "platforms")
     private String platformsIds;
 

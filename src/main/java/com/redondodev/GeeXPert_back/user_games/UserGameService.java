@@ -33,18 +33,9 @@ public class UserGameService {
             Game game = gameRepository.findById(gameDTO.getId()).orElse(null);
 
             if (game == null) {
-                LocalDate releaseDate = null;
-                if (gameDTO.getFirst_release_date() != null) {
-                    long timestamp = gameDTO.getFirst_release_date();
-                    releaseDate = Instant.ofEpochSecond(timestamp)
-                            .atZone(ZoneId.systemDefault())
-                            .toLocalDate();
-                }
-
                 game = Game.builder()
                         .id(gameDTO.getId())
                         .name(gameDTO.getName())
-                        .releaseDate(releaseDate)
                         .platformsIds(gameDTO.getPlatforms() != null
                                 ? joinListToString(gameDTO.getPlatforms())
                                 : null)

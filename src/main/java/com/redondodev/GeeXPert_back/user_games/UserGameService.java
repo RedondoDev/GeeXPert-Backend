@@ -44,6 +44,7 @@ public class UserGameService {
                                 : null)
                         .cover(gameDTO.getCover() != null ? gameDTO.getCover() : null)
                         .rating(gameDTO.getRating())
+                        .firstReleaseDate(gameDTO.getFirst_release_date())
                         .build();
 
                 game = gameRepository.save(game);

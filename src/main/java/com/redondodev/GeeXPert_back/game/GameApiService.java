@@ -28,7 +28,7 @@ public class GameApiService {
     @Value("${igbd.api.key}")
     private String apiKey;
 
-    public GameApiService(RestTemplate restTemplate) {
+    public GameApiService(RestTemplate restTemplate, GameRepository gameRepository) {
         this.restTemplate = restTemplate;
     }
 
@@ -153,6 +153,21 @@ public class GameApiService {
             }
         }
         throw new RuntimeException("Unexpected error occurred.");
+    }
+
+    @Cacheable("gameById")
+    public GameDTO getGameById(Integer id) {
+        String url = "https://api.igdb.com/v4/games";
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Client-ID", clientId);
+        headers.set("Authorization", "Bearer " + apiKey);
+        headers.setContentType(MediaType.TEXT_PLAIN);
+
+        String body = "fields id, cover.url, first_release_date, name, rating, rating_count, genres.name, platforms.name; " +
+                "where id = " + id + ";";
+
+        return getGameDTOS(url, headers, body).getFirst();
     }
 
 }

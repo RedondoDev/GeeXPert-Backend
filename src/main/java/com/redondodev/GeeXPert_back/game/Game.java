@@ -35,4 +35,7 @@ public class Game {
     @Column(name = "rating")
     private double rating;
 
+    @Column(name = "first_release_date")
+    private Long firstReleaseDate;
+
 }

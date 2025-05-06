@@ -35,4 +35,9 @@ public class GameController {
         return gameApiService.getGamesByName(name);
     }
 
+    @GetMapping("/{id}")
+    public GameDTO getGameById(@PathVariable Integer id) {
+        return gameApiService.getGameById(id);
+    }
+
 }

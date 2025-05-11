@@ -41,6 +41,7 @@ public class SecurityConfig {
                                 .requestMatchers("/games/explore").authenticated()
                                 .requestMatchers("/games/search").authenticated()
                                 .requestMatchers("/collection/**").authenticated()
+                                .requestMatchers("/recommendations/**").authenticated()
                                 .anyRequest().permitAll()
                 )
                 .sessionManagement(sessionManager ->

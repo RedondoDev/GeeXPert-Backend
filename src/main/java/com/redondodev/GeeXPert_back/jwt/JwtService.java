@@ -1,5 +1,6 @@
 package com.redondodev.GeeXPert_back.jwt;
 
+import com.redondodev.GeeXPert_back.user.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -27,12 +28,15 @@ public class JwtService {
     }
 
     private String getToken(Map<String, Object> extraClaims, UserDetails user) {
+        User userEntity = (User) user;
+        extraClaims.put("userId", userEntity.getId());
+
         return Jwts
                 .builder()
                 .setClaims(extraClaims)
                 .setSubject(user.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + (1000 * 60 * 60 * 24))) // 1 day
+                .setExpiration(new Date(System.currentTimeMillis() + (1000 * 60 * 60 * 24))) // 1 día
                 .signWith(getKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
@@ -71,6 +75,10 @@ public class JwtService {
 
     public boolean isTokenExpired(String token) {
         return getExpiration(token).before(new Date());
+    }
+
+    public Integer getUserIdFromToken(String token) {
+        return getClaim(token, claims -> claims.get("userId", Integer.class));
     }
 
 }

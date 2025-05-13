@@ -22,9 +22,10 @@ public class RecommendationController {
     private String prompt;
 
 
-    @GetMapping("/ai-assistant")
-    public ResponseEntity<String[]> getRecommendations() {
-        String[] recommendations = recommendationService.getGameRecommendations(model, prompt);
+    @GetMapping("/ai-assistant/{userId}")
+    public ResponseEntity<String[]> getRecommendations(@PathVariable Integer userId) {
+        String[] recommendations = recommendationService.getGameRecommendations(model, prompt, userId);
+        System.out.println("Recommendations: " + String.join(", ", recommendations));
         return ResponseEntity.ok(recommendations);
     }
 }

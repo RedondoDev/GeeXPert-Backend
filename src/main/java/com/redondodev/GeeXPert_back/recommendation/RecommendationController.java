@@ -25,7 +25,7 @@ public class RecommendationController {
     @GetMapping("/ai-assistant/{userId}")
     public ResponseEntity<String[]> getRecommendations(@PathVariable Integer userId) {
         String[] recommendations = recommendationService.getGameRecommendations(model, prompt, userId);
-        System.out.println("Recommendations: " + String.join(", ", recommendations));
+        System.out.println(String.join(", ", recommendations));
         return ResponseEntity.ok(recommendations);
     }
 }

@@ -34,7 +34,6 @@ public class RecommendationService {
                 .orElse("");
 
         String updatedPrompt = prompt.replace("<>", gameNames);
-        System.out.println("Updated prompt: " + updatedPrompt);
 
         try {
             URL url = new URL("http://localhost:11434/api/generate");

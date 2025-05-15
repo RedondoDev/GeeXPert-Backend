@@ -31,7 +31,6 @@ public class RecommendationController {
     @GetMapping("/ai-assistant/{userId}")
     public ResponseEntity<List<GameDTO>> getRecommendations(@PathVariable Integer userId) {
         String[] recommendations = recommendationService.getGameRecommendations(model, prompt, userId);
-        System.out.println(String.join(", ", recommendations));
 
         List<GameDTO> gameDetails = new ArrayList<>();
         for (String gameName : recommendations) {
@@ -46,4 +45,5 @@ public class RecommendationController {
 
         return ResponseEntity.ok(gameDetails);
     }
+
 }

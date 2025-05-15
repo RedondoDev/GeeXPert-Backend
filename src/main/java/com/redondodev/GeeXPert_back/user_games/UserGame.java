@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 public class UserGame {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_game_id")
     private Integer user_game_id;
 

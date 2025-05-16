@@ -1,6 +1,6 @@
 <div id="Badges1">
     <img alt="Stars Count" src="https://img.shields.io/github/stars/RedondoDev/GeeXPert-Backend?style=flat-square&color=yellow">
-    <img alt="License" src="https://img.shields.io/github/license/RedondoDev/GeeXPert-Backend?style=flat-square&color=rgb(18%2C%20145%2C%2082)">    
+    <img alt="License" src="https://img.shields.io/badge/License-MIT-purple?style=flat-square">    
 </div>
 <div id="Badges2">
     <img alt="Spring Boot" src="https://img.shields.io/badge/Spring_Boot-6DB33F?style=for-the-badge&logo=spring-boot&logoColor=white" height="20">
@@ -74,5 +74,5 @@ I hope you enjoy it.
 </table>
 
 ## License
-This project is licensed under the [MIT License](LICENSE)    
-<img alt="License" src="https://img.shields.io/github/license/RedondoDev/GeeXPert-Backend?style=flat-square&color=rgb(18%2C%20145%2C%2082)" width="120" height="22">
+This project is licensed under the [MIT License](https://github.com/RedondoDev/GeeXPert-Backend/blob/master/README.md)   
+<img alt="License" src="https://img.shields.io/badge/License-MIT-purple?style=flat-square">    

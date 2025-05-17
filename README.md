@@ -3,37 +3,56 @@
     <img alt="License" src="https://img.shields.io/badge/License-MIT-purple?style=flat-square">    
 </div>
 <div id="Badges2">
+    <img alt="Java" src="https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white" height="20">
     <img alt="Spring Boot" src="https://img.shields.io/badge/Spring_Boot-6DB33F?style=for-the-badge&logo=spring-boot&logoColor=white" height="20">
-    <img alt="Angular" src="https://img.shields.io/badge/Angular-DD0031?style=for-the-badge&logo=angular&logoColor=white" height="20">
     <img alt="MySQL" src="https://img.shields.io/badge/MySQL-005C84?style=for-the-badge&logo=mysql&logoColor=white" height="20">
     <img alt="Docker" src="https://img.shields.io/badge/Docker-2CA5E0?style=for-the-badge&logo=docker&logoColor=white" height="20">
+    <img alt="Postman" src="https://img.shields.io/badge/Postman-FF6C37?style=for-the-badge&logo=Postman&logoColor=white" height="20">
 </div>
 
 <br>
 
-<div align="center">
-    <img alt="Logo" src="https://github.com/user-attachments/assets/24a690de-ea78-48d1-8284-03758c07dc68" width="100%"">
-</div>
+*GeeXPert Backend acts as the server-side component for the GeeXPert ecosystem. While the main repository will cover the full application (frontend, backend, etc.), this repository is focused exclusively on backend logic, APIs, and data processing. If you want to see the parent repository click on the following link <a href="https://github.com/RedondoDev/GeeXPert">GeeXPert</a>*
 
-# GeeXPert
-*<h3>Track your games, level up your experience.</h3>*
-Every hero needs a quest log. Keep track of your played, pending and completed games as you embark on epic adventures across diferent worlds. From indie gems to AAA titles, make sure no game gets left behind.
-<br><br>
-GeeXPert is a web application for video game fans. In GeeXPert you can discover video games, create your own video game collection and track the progress of them.
-Also, you can discover video games based on your tastes through our artificial intelligence assistant.
-<br><br>
-I hope you enjoy it.
+# GeeXPert Backend
+
+This repository contains the backend code for the GeeXPert application. The backend is built with Java and Spring Boot, and its main responsibilities are user authentication, game information integration,  user game collection management, and personalized recommendations.
 
 ## Table of Contents
-- [Images](#images)
+- [Features](#features)
 - [Technologies](#technologies)
+- [API-Endpoints](#api-endpoints)
 - [Installation](#installation)
 - [Author](#author)
 - [License](#license)
 
-## Images
+## Features
+
+### 1. User Authentication & Authorization
+- Implements registration and login endpoints (`/auth/signup`, `/auth/signin`), using Spring Security and JWT tokens.
+- Passwords are securely hashed with BCrypt.
+- Stateless authentication for secure API access.
+
+### 2. Game Information Integration
+- Integrates with the <a href="https://api-docs.igdb.com/#getting-started">IGDB API</a> to fetch and cache game data (top-rated, trending, search by name, and details by ID).
+- Endpoints like `/games/top`, `/games/trending`, `/games/search`, `/games/{id}`.
+
+### 3. User Game Collection
+- Users can add or remove games to/from their personal collection.
+- The state of each game on User Collection can be swapped between pending, playing and completed.
+- The backend ensures no duplicates and handles game state for each user.
+- Endpoints allow retrieving and managing the user's game library.
+
+### 4. Personalized Game Recommendations
+- Recommends games based on a user's collection and preferences, leveraging models like `llama3.2:3b`.
+- Integrates with <a href="https://github.com/ollama/ollama">Ollama</a> for AI-powered recommendations.
+
+### 5. Security
+- Uses JWT tokens for API protection.
+- Custom security configurations restrict access to sensitive endpoints and enable CORS for frontend integration.
 
 ## Technologies
+
 <ul>
     <li>Java</li>
     <li>Spring Boot</li>
@@ -48,18 +67,38 @@ I hope you enjoy it.
         <li>Hibernate</li>
       </ul>
     </ul>
-      <li>MySQL</li>
-      <li>Ollama</li>
-      <ul>
-        <li>llama3.2:3b</li>
-      </ul>
-      <li>Docker</li>
+    <li>MySQL</li>
+    <li>Ollama</li>
+    <ul>
+      <li>llama3.2:3b</li>
+    </ul>
+    <li>Maven</li>
+    <li>Postman</li>
+    <li>Docker</li>
     </ul>
 </ul>
 
-## Installation
+## API-Endpoints
+
+- `POST /auth/signup` - Register a new user
+- `POST /auth/signin` - Authenticate and receive a JWT token
+- `GET /games/top` - Get top-rated games
+- `GET /games/trending` - Get trending games
+- `GET /games/search?name=...` - Search games by name
+- `GET /games/explore` - Explore games
+- `GET /games/{id}` - Get details of a specific game
+- `GET /collection/games` - Get the user's game collection
+- `POST /collection/add` - Add a game to the user's collection
+- `PUT /collection/{id}/state` - Change the status of a game from the user's collection
+- `DELETE /collection/{gameId}` - Remove a game from the user's collection
+- `GET /recommendations/ai-assistant/{id}` - Get personalized recommendations
+
+##  Installation
+
+
 
 ## Author
+
 <table>
     <tr>
         <th>RedondoDEV</th>    
@@ -74,5 +113,6 @@ I hope you enjoy it.
 </table>
 
 ## License
-This project is licensed under the [MIT License](https://github.com/RedondoDev/GeeXPert-Backend/blob/master/README.md)   
+
+This project is licensed under the [MIT License](https://github.com/RedondoDev/GeeXPert-Backend/blob/master/README.md)  
 <img alt="License" src="https://img.shields.io/badge/License-MIT-purple?style=flat-square">    

@@ -3,7 +3,6 @@ package com.redondodev.GeeXPert_back.game;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
@@ -32,7 +31,6 @@ public class GameApiService {
         this.restTemplate = restTemplate;
     }
 
-    @Cacheable("topRatedGames")
     public List<GameDTO> getTopRatedGames() {
         String url = "https://api.igdb.com/v4/games";
 
@@ -47,7 +45,6 @@ public class GameApiService {
         return delayHttpRequest(url, headers, body);
     }
 
-    @Cacheable("trendingGames")
     public List<GameDTO> getTrendingGames(int page, int size) {
         String url = "https://api.igdb.com/v4/games";
 
@@ -155,7 +152,6 @@ public class GameApiService {
         throw new RuntimeException("Unexpected error occurred.");
     }
 
-    @Cacheable("gameById")
     public GameDTO getGameById(Integer id) {
         String url = "https://api.igdb.com/v4/games";
 

@@ -36,7 +36,7 @@ public class RecommendationService {
         String updatedPrompt = prompt.replace("<>", gameNames);
 
         try {
-            URL url = new URL("http://localhost:11434/api/generate");
+            URL url = new URL("http://ollama:11434/api/generate");
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("POST");
             connection.setRequestProperty("Content-Type", "application/json");

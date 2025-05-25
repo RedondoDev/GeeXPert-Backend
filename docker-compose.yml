@@ -11,10 +11,24 @@ services:
     volumes:
       - db_data:/var/lib/mysql
     healthcheck:
-      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
       interval: 10s
       timeout: 5s
       retries: 5
+
+  ollama:
+    image: ollama/ollama
+    container_name: ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    healthcheck:
+      test: [ "CMD", "curl", "-fsS", "http://ollama:11434/api/tags" ]
+      interval: 15s
+      timeout: 10s
+      retries: 10
+      start_period: 40s
 
   backend:
     build: .
@@ -35,3 +49,4 @@ services:
 
 volumes:
   db_data:
+  ollama_data:

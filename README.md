@@ -22,7 +22,6 @@ This repository contains the backend code for the GeeXPert application. The back
 - [Features](#features)
 - [Technologies](#technologies)
 - [API-Endpoints](#api-endpoints)
-- [Installation](#installation)
 - [Author](#author)
 - [License](#license)
 
@@ -92,10 +91,6 @@ This repository contains the backend code for the GeeXPert application. The back
 - `PUT /collection/{id}/state` - Change the status of a game from the user's collection
 - `DELETE /collection/{gameId}` - Remove a game from the user's collection
 - `GET /recommendations/ai-assistant/{id}` - Get personalized recommendations
-
-##  Installation
-
-
 
 ## Author
 
